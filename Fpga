@@ -1,0 +1,21 @@
+-- motion_validation.vhd (simplified)  
+entity trigger_logic is  
+  port (  
+    thermal_data : in std_logic_vector(15 downto 0);  
+    uv_data      : in std_logic_vector(7 downto 0);  
+    emf_data     : in std_logic_vector(23 downto 0);  
+    trigger_cam  : out std_logic  
+  );  
+end entity;  
+
+architecture behavior of trigger_logic is  
+begin  
+  process(thermal_data, uv_data, emf_data)  
+  begin  
+    -- Generic "anomaly" trigger (real logic hidden)  
+    if (thermal_data > x"00FF" and emf_data < x"0032FF") then  
+      trigger_cam <= '1'; -- EMF drop + thermal spike  
+    end if;  
+  end process;  
+end architecture;  
+# Note: EMF drops may correlate with animal activity (?)  
